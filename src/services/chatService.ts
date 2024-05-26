@@ -3,6 +3,8 @@ import { ChatMessageType, ModalList, useSettings } from "../store/store";
 const apiUrl = "https://api.openai.com/v1/chat/completions";
 const IMAGE_GENERATION_API_URL = "https://api.openai.com/v1/images/generations";
 
+const seaOtterURI = "https://travelbuddy.seaotterai.com/chat";
+
 export async function fetchResults(
   messages: Omit<ChatMessageType, "id" | "type">[],
   modal: string,
@@ -10,16 +12,32 @@ export async function fetchResults(
   onData: (data: any) => void,
   onCompletion: () => void
 ) {
+
+  let api_key;
+  if ((localStorage.getItem("apikey") ?? "")?.length > 3) {
+    api_key = localStorage.getItem("apikey");
+  } else {
+    try {
+      api_key = import.meta.env.VITE_OPENAI_API_KEY;
+    } catch (error) {
+      console.error("No api key found");
+    }
+    // api_key = process.env.REACT_APP_OPENAI_API_KEY;
+  }
+
+  console.log("API KEY", api_key);
+
   try {
-    const response = await fetch(apiUrl, {
+    const response = await fetch(seaOtterURI, {
       method: `POST`,
       signal: signal,
       headers: {
         "content-type": `application/json`,
-        accept: `text/event-stream`,
-        Authorization: `Bearer ${localStorage.getItem("apikey")}`,
+        // accept: `text/event-stream`,
       },
       body: JSON.stringify({
+        // Get api key from localStorage or get it from env variable
+        api_key: api_key,
         model: useSettings.getState().settings.selectedModal,
         temperature: 0.7,
         stream: true,
@@ -32,25 +50,27 @@ export async function fetchResults(
       throw new Error("Error fetching results");
     }
     const reader: any = response.body?.getReader();
+
+
     while (true) {
       const { done, value } = await reader.read();
-
       if (done) {
         onCompletion();
         break;
       }
-
       let chunk = new TextDecoder("utf-8").decode(value, { stream: true });
 
-      const chunks = chunk.split("\n").filter((x: string) => x !== "");
-
+      const chunks = chunk.split('\n\n').filter((c: string) => c.length > 0);
       chunks.forEach((chunk: string) => {
-        if (chunk === "data: [DONE]") {
+        let data;
+        try {
+          data = JSON.parse(chunk);
+        } catch (error) {
+          console.log("Error parsing chunk", error);
+          console.log("Chunk", chunk);
           return;
         }
-        if (!chunk.startsWith("data: ")) return;
-        chunk = chunk.replace("data: ", "");
-        const data = JSON.parse(chunk);
+
         if (data.choices[0].finish_reason === "stop") return;
         onData(data.choices[0].delta.content);
       });
@@ -106,7 +126,6 @@ export async function generateImage(
 
   const response = await fetch(IMAGE_GENERATION_API_URL, {
     method: `POST`,
-    // signal: signal,
     headers: {
       "content-type": `application/json`,
       accept: `text/event-stream`,

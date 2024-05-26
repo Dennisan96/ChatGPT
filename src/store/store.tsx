@@ -22,7 +22,7 @@ const modalsList = [
 
 export interface ChatMessageType {
   role: "user" | "assistant" | "system";
-  content: string ;
+  content: string;
   type: "text" | "image_url";
   id: string;
 }
@@ -266,7 +266,7 @@ const useSettings = createWithEqualityFn<SettingsType>()(
   persist(
     (set) => ({
       settings: {
-        sendChatHistory: false,
+        sendChatHistory: true,
         systemMessage: "",
         useSystemMessageForAllChats: false,
         selectedModal: "gpt-3.5-turbo",

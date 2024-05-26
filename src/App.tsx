@@ -17,6 +17,7 @@ function App() {
   const [active, setActive] = useState(false);
   const isChatsVisible = useChat(chatsLength);
   const addNewChat = useChat((state) => state.addNewChat);
+  //TODO: Remote API Key and use env var
   const userHasApiKey = useAuth((state) => state.apikey);
   const [theme] = useTheme((state) => [state.theme]);
 
