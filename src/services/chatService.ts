@@ -1,3 +1,4 @@
+import { get } from "http";
 import { ChatMessageType, ModalList, useSettings } from "../store/store";
 
 const apiUrl = "https://api.openai.com/v1/chat/completions";
@@ -5,14 +6,7 @@ const IMAGE_GENERATION_API_URL = "https://api.openai.com/v1/images/generations";
 
 const seaOtterURI = "https://travelbuddy.seaotterai.com/chat";
 
-export async function fetchResults(
-  messages: Omit<ChatMessageType, "id" | "type">[],
-  modal: string,
-  signal: AbortSignal,
-  onData: (data: any) => void,
-  onCompletion: () => void
-) {
-
+function getApiKey() {
   let api_key;
   if ((localStorage.getItem("apikey") ?? "")?.length > 3) {
     api_key = localStorage.getItem("apikey");
@@ -22,10 +16,19 @@ export async function fetchResults(
     } catch (error) {
       console.error("No api key found");
     }
-    // api_key = process.env.REACT_APP_OPENAI_API_KEY;
   }
+  return api_key;
+}
 
-  console.log("API KEY", api_key);
+export async function fetchResults(
+  messages: Omit<ChatMessageType, "id" | "type">[],
+  modal: string,
+  signal: AbortSignal,
+  onData: (data: any) => void,
+  onCompletion: () => void
+) {
+
+  let api_key = getApiKey();
 
   try {
     const response = await fetch(seaOtterURI, {
@@ -122,14 +125,16 @@ export async function generateImage(
   size: ImageSize,
   numberOfImages: number
 ) {
+  console.log('requested a image');
   const selectedModal = useSettings.getState().settings.selectedModal;
+  const apiKey = getApiKey();
 
   const response = await fetch(IMAGE_GENERATION_API_URL, {
     method: `POST`,
     headers: {
       "content-type": `application/json`,
       accept: `text/event-stream`,
-      Authorization: `Bearer ${localStorage.getItem("apikey")}`,
+      Authorization: `Bearer ${apiKey}`,
     },
     body: JSON.stringify({
       model: selectedModal,
