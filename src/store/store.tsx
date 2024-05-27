@@ -8,14 +8,9 @@ import { ImageSize } from "../services/chatService";
 
 const modalsList = [
   "gpt-3.5-turbo",
-  "gpt-3.5-turbo-1106",
-  "gpt-3.5-turbo-16k-0613",
-  "gpt-3.5-turbo-16k",
-  "gpt-3.5-turbo-0613",
   "gpt-4",
-  "gpt-4-0613",
-  "gpt-4-0314",
-  "gpt-4-1106-preview",
+  "gpt-4-turbo",
+  "gpt-4o",
   "dall-e-3",
   "dall-e-2",
 ] as const;
@@ -262,12 +257,17 @@ const useAuth = create<AuthType>()(
   )
 );
 
+const initialSystemMessage = "You're a helpful assistant "
+  + "Your goal is to provide user with accurate and helpful responses. "
+  + "Please provide clear and detailed questions or requests to ensure the best possible assistance."
+  + "You are here to help with a wide range of topics, from general information and advice to technical support and creative writing. You answer should be accurate and as clear as possible and avoid giving super verbose answers.";
+
 const useSettings = createWithEqualityFn<SettingsType>()(
   persist(
     (set) => ({
       settings: {
         sendChatHistory: true,
-        systemMessage: "",
+        systemMessage: initialSystemMessage,
         useSystemMessageForAllChats: false,
         selectedModal: "gpt-3.5-turbo",
         dalleImageSize: { "dall-e-2": "256x256", "dall-e-3": "1024x1024" },
@@ -276,6 +276,7 @@ const useSettings = createWithEqualityFn<SettingsType>()(
       isSystemMessageModalVisible: false,
       isModalVisible: false,
       setSystemMessage: (value) => {
+        console.log("Something is setting system message", value);
         set(
           produce((state: SettingsType) => {
             state.settings.systemMessage = value.message;

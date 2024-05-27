@@ -36,16 +36,16 @@ export default function GptIntro() {
         </button>
 
         <button
-          title="GPT - 4"
+          title="GPT - 4o"
           className={classNames(
-            "gpt4 uppercase rounded p-2 transition  dark:text-white flex-1 flex  items-center justify-center",
+            "gpt4 rounded p-2 transition  dark:text-white flex-1 flex  items-center justify-center",
             {
               "bg-white dark:bg-dark-primary border-2 dark:border-white border-gray-700":
                 !isGptThreeSelected,
               "opacity-50": isGptThreeSelected,
             }
           )}
-          onClick={() => setModel("gpt-4")}
+          onClick={() => setModel("gpt-4o")}
         >
           <span
             className={classNames("mr-2 transition", {
@@ -54,7 +54,7 @@ export default function GptIntro() {
           >
             <IonIcon icon={sparkles} />
           </span>
-          <span className="mr-2">gpt - 4</span>
+          <span className="mr-2">GPT-4o</span>
         </button>
       </div>
       <div className=" h-96 flex items-start justify-center">

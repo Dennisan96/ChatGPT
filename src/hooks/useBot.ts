@@ -69,24 +69,23 @@ export default function useBot({ index, chat }: Props) {
       try {
         let prevChats = sendHistory
           ? chatsRef.current
-              .slice(0, index)
-              .filter((m) => m.type === "text")
-              .map((chat) => ({
-                role: chat.role,
-                content: chat.content,
-              }))
+            .slice(0, index)
+            .filter((m) => m.type === "text")
+            .map((chat) => ({
+              role: chat.role,
+              content: chat.content,
+            }))
           : [
-              {
-                role: chatsRef.current[index - 1].role,
-                content: chatsRef.current[index - 1].content,
-              },
-            ];
-        if (useForAllChats && systemMessage) {
-          prevChats = [
-            { role: "system", content: systemMessage},
-            ...prevChats,
+            {
+              role: chatsRef.current[index - 1].role,
+              content: chatsRef.current[index - 1].content,
+            },
           ];
-        }
+        // Always include system message
+        prevChats = [
+          { role: "system", content: systemMessage },
+          ...prevChats,
+        ];
         await fetchResults(
           prevChats,
           selectedModal,

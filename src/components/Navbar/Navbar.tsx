@@ -98,7 +98,7 @@ export default function Navbar({
                   <optgroup
                     label={group.toUpperCase()}
                     key={group}
-                    // disabled={group.startsWith("dall-e")}
+                  // disabled={group.startsWith("dall-e")}
                   >
                     {groupedModels[group].map((modal) => (
                       <option value={modal} key={modal}>
@@ -122,7 +122,7 @@ export default function Navbar({
                 </span>
               </button>
               <div className="options absolute bottom-12 rounded-md left-0 right-0 bg-gray-800 font-normal invisible transition  m-2 z-30 text-gray-300 ">
-                <button
+                {/* <button
                   className=" p-2   hover:bg-gray-700 w-full text-left flex items-center"
                   onClick={() => setSystemMessageModalVisible(true)}
                 >
@@ -130,7 +130,7 @@ export default function Navbar({
                     <IonIcon icon={chatboxEllipsesOutline} />
                   </span>
                   <span>Custom instructions</span>
-                </button>
+                </button> */}
                 <button
                   className=" p-2   hover:bg-gray-700 w-full text-left flex items-center"
                   onClick={() => setModalVisible(true)}
@@ -165,9 +165,9 @@ export default function Navbar({
       <Modal visible={isVisible}>
         <Settings />
       </Modal>
-      <Modal visible={isSystemMessageModalVisible}>
+      {/* <Modal visible={isSystemMessageModalVisible}>
         <SystemMessage />
-      </Modal>
+      </Modal> */}
     </>
   );
 }

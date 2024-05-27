@@ -76,14 +76,13 @@ function App() {
             <div className="dark:bg-inherit">
               <UserQuery />
               <footer className="info text-sm py-2 text-gray-700 dark:text-white text-center">
-                Made With
-                <span className="mx-2">
+                Made by D.A.
+                {/* <span className="mx-2">
                   <i
                     className="fas fa-heart text-red-500"
                     aria-hidden="true"
                   ></i>
-                </span>
-                By Da A
+                </span> */}
               </footer>
             </div>
           </div>
