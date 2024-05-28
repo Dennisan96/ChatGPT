@@ -82,10 +82,11 @@ export default function useBot({ index, chat }: Props) {
             },
           ];
         // Always include system message
-        prevChats = [
-          { role: "system", content: systemMessage },
-          ...prevChats,
-        ];
+        // prevChats = [
+        //   { role: "system", content: systemMessage },
+        //   ...prevChats,
+        // ];
+        console.log(prevChats);
         await fetchResults(
           prevChats,
           selectedModal,

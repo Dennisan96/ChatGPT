@@ -5,6 +5,7 @@ const apiUrl = "https://api.openai.com/v1/chat/completions";
 const IMAGE_GENERATION_API_URL = "https://api.openai.com/v1/images/generations";
 
 const seaOtterURI = "https://travelbuddy.seaotterai.com/chat";
+const devSeaOtterURI = "http://localhost:8000/chat";
 
 function getApiKey() {
   let api_key;
@@ -29,7 +30,6 @@ export async function fetchResults(
 ) {
 
   let api_key = getApiKey();
-
   try {
     const response = await fetch(seaOtterURI, {
       method: `POST`,
@@ -45,6 +45,7 @@ export async function fetchResults(
         temperature: 0.7,
         stream: true,
         messages: messages,
+        search_online: true,
       }),
     });
 

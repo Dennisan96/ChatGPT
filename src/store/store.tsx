@@ -257,17 +257,13 @@ const useAuth = create<AuthType>()(
   )
 );
 
-const initialSystemMessage = "You're a helpful assistant "
-  + "Your goal is to provide user with accurate and helpful responses. "
-  + "Please provide clear and detailed questions or requests to ensure the best possible assistance."
-  + "You are here to help with a wide range of topics, from general information and advice to technical support and creative writing. You answer should be accurate and as clear as possible and avoid giving super verbose answers.";
 
 const useSettings = createWithEqualityFn<SettingsType>()(
   persist(
     (set) => ({
       settings: {
         sendChatHistory: true,
-        systemMessage: initialSystemMessage,
+        systemMessage: '',
         useSystemMessageForAllChats: false,
         selectedModal: "gpt-3.5-turbo",
         dalleImageSize: { "dall-e-2": "256x256", "dall-e-3": "1024x1024" },
