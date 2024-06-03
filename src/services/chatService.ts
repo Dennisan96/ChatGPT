@@ -81,6 +81,7 @@ export async function fetchResults(
     }
   } catch (error) {
     if (error instanceof DOMException || error instanceof Error) {
+      console.log("Error", error);
       throw new Error(error.message);
     }
   }

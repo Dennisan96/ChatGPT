@@ -54,6 +54,18 @@ export default function TextMessage({ index, chat }: Props) {
                     </code>
                   );
                 },
+                a(props) {
+                  return (
+                    <a
+                      {...props}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue-500 dark:text-blue-400"
+                    >
+                      {props.children}
+                    </a>
+                  );
+                }
               }}
             />
 

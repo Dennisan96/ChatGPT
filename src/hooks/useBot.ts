@@ -81,12 +81,6 @@ export default function useBot({ index, chat }: Props) {
               content: chatsRef.current[index - 1].content,
             },
           ];
-        // Always include system message
-        // prevChats = [
-        //   { role: "system", content: systemMessage },
-        //   ...prevChats,
-        // ];
-        console.log(prevChats);
         await fetchResults(
           prevChats,
           selectedModal,
@@ -100,6 +94,7 @@ export default function useBot({ index, chat }: Props) {
         }
       }
     })();
+
     return () => {
       controller.abort();
       mounted = false;
